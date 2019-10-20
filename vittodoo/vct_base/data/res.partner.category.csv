@@ -1,0 +1,4 @@
+"id","name","parent_id","active"
+"importer","Importer",,"True"
+"outlook","Importer d’outlook",,"True"
+"ids","Importer d'IDS",,"True"

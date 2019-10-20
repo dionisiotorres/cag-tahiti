@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_product_sheet">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="vct_product.report_product_sheet_document"/>
+                </t>
+            </t>
+        </template>
+        <template id="report_product_sheet_document">
+            <t t-set="doc" t-value="doc"/>
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="row">
+                        <h1>
+                            FICHE D'ARTICLE EN STOCK
+                        </h1>
+                        <div style="border: 1px solid black">
+                            <t t-set="last_movement" t-value="doc.get_last_movement()"/>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        Nomenclature
+                                    </td>
+                                    <td colspan="4">
+                                        <span t-field="doc.default_code"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Désignation
+                                    </td>
+                                    <td colspan="4">
+                                        <span t-field="doc.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Unité de compte
+                                    </td>
+                                    <td colspan="4">
+                                        <span t-field="doc.uom_id.display_name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        P : (???)
+                                    </td>
+                                    <td>
+                                        F : (???)
+                                    </td>
+                                    <td>
+                                        M : (???)
+                                    </td>
+                                    <td width="40%">
+                                        Consommation figée :
+                                        <span t-field="doc.product_variant_id.frozen_consumption"/>
+                                    </td>
+                                    <td>
+                                        Moyenne sur 6 dernier mois :
+                                        <span t-field="doc.product_variant_id.average_delivery"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        NRP :
+                                    </td>
+                                    <td>
+                                        (???)
+                                    </td>
+                                    <td/>
+                                    <td rowspan="3" colspan="3">
+                                        <div style="border: 1px solid black">
+                                            20 IMPRIMANTE EN JANVIER 2016 (???)
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        NRC :
+                                    </td>
+                                    <td>
+                                        (???)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        EXISTANT :
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.qty_available"/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        ATTENDU :
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.product_variant_id.remaining_quantity"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Temps de couverture : 2 Mois et 26 Jours
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Dernier mouvement :
+                                            <span t-if="last_movement" t-field="last_movement.date"/>
+                                        </div>
+                                        <div>
+                                            Dernier prix :
+                                            <span t-if="last_movement" t-esc="last_movement.price_unit" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </div>
+                                    </td>
+                                    <td/>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <table class="table table-condensed">
+                            <thead>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    RJ
+                                </th>
+                                <th>
+                                    DESTINATAIRE
+                                </th>
+                                <th>
+                                    ENTREE
+                                </th>
+                                <th>
+                                    SOTRIE
+                                </th>
+                                <th>
+                                    EXISTANT
+                                </th>
+                                <th>
+                                    PRIX
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.get_movements()" t-as="movement">
+                                    <td>
+                                        <span t-field="movement.date"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <span t-field="movement.picking_partner_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-if="movement.location_id.usage not in ('internal', 'transit')" t-field="movement.product_uom_qty"/>
+                                        <span t-if="movement.location_id.usage in ('internal', 'transit')">0.0</span>
+                                    </td>
+                                    <td>
+                                        <span t-if="movement.location_id.usage in ('internal', 'transit')" t-field="movement.product_uom_qty"/>
+                                        <span t-if="movement.location_id.usage not in ('internal', 'transit')">0.0</span>
+                                    </td>
+                                    <td>?????</td>
+                                    <td>
+                                        <span t-esc="movement.price_unit" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

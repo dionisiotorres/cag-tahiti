@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- RESTAURANTS FLOORS -->
+
+        <record model="ir.ui.view" id="ts_restaurant_floor_inherit_form">
+            <field name="name">ts.restaurant.floor.inherit.form</field>
+            <field name="model">restaurant.floor</field>
+            <field name="inherit_id" ref="pos_restaurant.view_restaurant_floor_form"></field>
+            <field name="arch" type="xml">
+                <field name="pos_config_id" position="replace">
+                    <field name="pos_config_id" invisible="1" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ts_pos_config_inherit_form">
+            <field name="name">ts.pos.config.inherit.form</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="pos_restaurant.pos_config_view_form_inherit_restaurant"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='floor_ids']" position="replace">
+                    <field name="floor_ids" widget="many2many_tags"/>
+                </xpath>
+                <div id="company" position="after">
+                    <h2 name="sync_order">Sync Orders</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div class="o_setting_right_pane">
+                                <label for="multi_session_id"/>
+                                <div/>
+                                <field name="multi_session_id"/>
+                            </div>
+                            
+                            <div class="o_setting_left_pane">
+                                <field name="multi_session_accept_incoming_orders"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="multi_session_accept_incoming_orders"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div class="o_setting_right_pane">
+                                <label for="query_timeout"/>
+                                <div class="text-muted">
+                                    POS Longpolling Query Timeout
+                                </div>
+                                <field name="query_timeout"  widget="float_time"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div attrs="{'invisible':[('multi_session_accept_incoming_orders', '=', False)]}">
+                                <div class="o_setting_left_pane">
+                                    <field name="multi_session_replace_empty_order"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="multi_session_replace_empty_order"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div class="o_setting_right_pane">
+                                <label for="response_timeout"/>
+                                <div class="text-muted">
+                                    POS Longpolling Response Timeout
+                                </div>
+                                <field name="response_timeout"  widget="float_time"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div attrs="{'invisible':['|',('multi_session_replace_empty_order', '=', True),('multi_session_accept_incoming_orders', '=', False)]}">
+                                <div class="o_setting_left_pane">
+                                    <field name="multi_session_deactivate_empty_order"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="multi_session_deactivate_empty_order"/>
+                                    <div/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

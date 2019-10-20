@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="product_template_form_view_multi_seller">
+            <field name="name">product.template.form.view.multi.seller</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="sale.product_template_form_view_invoice_policy"/>
+            <field name="arch" type="xml">
+                <group name="properties" position="after">
+                    <group string="Multi-Seller" name="multi-seller">
+                        <field name="exclude_from_base_commission"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+header a.navbar-brand img {
+    margin-top: -10px;
+    max-height: 80px;
+}
+.btn-primary, .btn-primary:focus {
+    background-color: orange !important;
+}
+.btn-primary:hover {
+    background-color: #ffcc00 !important;
+}
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background-color: #d9534f;
+}
+body{overflow-x: hidden;}
+
+#wrapwrap #graph_header_affix .navbar {
+    padding: 20px;
+}
+.jumbotron {
+    background-color: #fff !important;
+}

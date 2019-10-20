@@ -1,0 +1,25 @@
+<openerp>
+    <data>
+        <!-- View Form -->
+        <record id="pos_config_view_form" model="ir.ui.view">
+            <field name="name">pos_config_view_form</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='receipt']" position="inside">
+                    <div class="col-xs-12 col-md-6 o_setting_box" modifiers="{}">
+                        <div class="o_setting_left_pane">
+                            <field name="receipt_print_user"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="receipt_print_user"/>
+                            <div class="text-muted">
+                                Imprime le nom du caissier sur le ticket
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

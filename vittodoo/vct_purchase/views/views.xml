@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="purchase_order_form_inherited" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherited</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <button type="object" name="action_view_reordering_rule" attrs="{'invisible': [('nbr_reordering_rules', '=', 0)]}" class="oe_stat_button" icon="fa-refresh">
+                        <field name="nbr_reordering_rules" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

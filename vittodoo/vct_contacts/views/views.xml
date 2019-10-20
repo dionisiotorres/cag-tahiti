@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="vct_view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">36</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="attributes">
+                    <attribute name="col">3</attribute>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <group>
+                        <field name="activity"/>
+                        <field name="effectif"/>
+                        <field name="multi_site"/>
+                        <field name="internet_apps"/>
+                        <field name="intranet_ged_apps"/>
+                        <field name="erp_apps"/>
+                        <field name="hosting"/>
+                        <field name="security_apps"/>
+                        <field name="mdm"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

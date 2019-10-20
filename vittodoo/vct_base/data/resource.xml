@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- Société privée -->
+	<record id="39hours_per_week_private" model="resource.calendar">
+		<field name="name">39 Heures/Semaine(Privée)</field>
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_mon1">
+		<field name="name">Lundi matin</field>
+		<field name="dayofweek">0</field>
+		<field name="hour_from">08</field>
+		<field name="hour_to">12</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_mon2">
+		<field name="name">Lundi après-midi</field>
+		<field name="dayofweek">0</field>
+		<field name="hour_from">13</field>
+		<field name="hour_to">17</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_tue1">
+		<field name="name">Mardi matin</field>
+		<field name="dayofweek">1</field>
+		<field name="hour_from">08</field>
+		<field name="hour_to">12</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_tue2">
+		<field name="name">Mardi après-midi</field>
+		<field name="dayofweek">1</field>
+		<field name="hour_from">13</field>
+		<field name="hour_to">17</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_wed1">
+		<field name="name">Mercredi matin</field>
+		<field name="dayofweek">2</field>
+		<field name="hour_from">08</field>
+		<field name="hour_to">12</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_wed2">
+		<field name="name">Mercredi après-midi</field>
+		<field name="dayofweek">2</field>
+		<field name="hour_from">13</field>
+		<field name="hour_to">17</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_thu1">
+		<field name="name">Jeudi matin</field>
+		<field name="dayofweek">3</field>
+		<field name="hour_from">08</field>
+		<field name="hour_to">12</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_thu2">
+		<field name="name">Jeudi après-midi</field>
+		<field name="hour_from">13</field>
+		<field name="hour_to">17</field>
+		<field name="dayofweek">3</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_fri1">
+		<field name="name">Vendredi matin</field>
+		<field name="dayofweek">4</field>
+		<field name="hour_from">08</field>
+		<field name="hour_to">12</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+	<record model="resource.calendar.attendance" id="calendar_attendance_fri2">
+		<field name="name">Vendredi après-midi</field>
+		<field name="dayofweek">4</field>
+		<field name="hour_from">13</field>
+		<field name="hour_to">16</field>
+		<field name="calendar_id" ref="39hours_per_week_private" />
+	</record>
+
+	<!-- Administration Public -->
+	<record id="39hours_per_week_public" model="resource.calendar">
+		<field name="name">39 Heures/Semaine(Administration public)</field>
+	</record>
+	<record model="resource.calendar.attendance" id="public_calendar_attendance_mon">
+		<field name="name">Lundi</field>
+		<field name="dayofweek">0</field>
+		<field name="hour_from">07.50</field>
+		<field name="hour_to">15.50</field>
+		<field name="calendar_id" ref="39hours_per_week_public" />
+	</record>
+	<record model="resource.calendar.attendance" id="public_calendar_attendance_tue">
+		<field name="name">Mardi</field>
+		<field name="dayofweek">1</field>
+		<field name="hour_from">07.50</field>
+		<field name="hour_to">15.50</field>
+		<field name="calendar_id" ref="39hours_per_week_public" />
+	</record>
+	<record model="resource.calendar.attendance" id="public_calendar_attendance_wed">
+		<field name="name">Mercredi</field>
+		<field name="dayofweek">2</field>
+		<field name="hour_from">07.50</field>
+		<field name="hour_to">15.50</field>
+		<field name="calendar_id" ref="39hours_per_week_public" />
+	</record>
+	<record model="resource.calendar.attendance" id="public_calendar_attendance_thu">
+		<field name="name">Jeudi</field>
+		<field name="dayofweek">3</field>
+		<field name="hour_from">07.50</field>
+		<field name="hour_to">15.50</field>
+		<field name="calendar_id" ref="39hours_per_week_public" />
+	</record>
+	<record model="resource.calendar.attendance" id="public_calendar_attendance_fri">
+		<field name="name">Vendredi</field>
+		<field name="dayofweek">4</field>
+		<field name="hour_from">07.50</field>
+		<field name="hour_to">14.50</field>
+		<field name="calendar_id" ref="39hours_per_week_public" />
+	</record>
+</odoo>

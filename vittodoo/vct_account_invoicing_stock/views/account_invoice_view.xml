@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record id="customer_invoice_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" positin="inside">
+                    <button type="object" name="action_view_delivery" class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('picking_count', '=', 0)]}" groups="base.group_user">
+                        <field name="picking_count" widget="statinfo" string="Picking"/>
+                    </button>
+                </xpath>
+                <xpath expr="//page[@name='other_info']/group[1]" position="before">
+                    <group string="Shipping Informations">
+                        <field name="picking_policy"/>
+                        <field name="warehouse_id"/>
+                        <field name="procurement_group_id" groups="base.group_no_one"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_invoice_supplier_purchase_form" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.purchase</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[1]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_delivery" class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('picking_count', '=', 0)]}" groups="base.group_user">
+                            <field name="picking_count" widget="statinfo" string="Picking"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//page[@name='other_info']/group[1]" position="before">
+                    <group string="Shipping Informations">
+                        <field name="picking_policy"/>
+                        <field name="warehouse_id"/>
+                        <field name="procurement_group_id" groups="base.group_no_one"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

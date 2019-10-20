@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_pos_session_form">
+        <field name="name">pos.session.form.view</field>
+        <field name="model">pos.session</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="generate_report" type="object" string="Détails de vente" class="oe_highlight"/>
+            </header>
+        </field>
+    </record>
+</odoo>

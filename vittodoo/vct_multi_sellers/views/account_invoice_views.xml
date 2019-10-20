@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="invoice_form_inherited_with_multi_sellers" model="ir.ui.view">
+            <field name="name">invoice_form_inherited_with_multi_sellers</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="sellers" widget="many2many_tags"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Répartition de la base commissionnable par vendeur">
+                        <div>
+                            <field name="account_invoice_seller_commissions">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="seller"/>
+                                    <field name="commission"/>
+                                </tree>
+                            </field>
+                        </div>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

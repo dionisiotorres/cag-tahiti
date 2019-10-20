@@ -1,0 +1,135 @@
+<odoo>
+	<data>
+		<template id="vct_hr_holidays.assets_backend" name="vct_hr_holidays assets_backend" inherit_id="web.assets_backend">
+			<xpath expr="." position="inside">
+				<link rel="stylesheet" href="/vct_hr_holidays/static/src/css/hr_holidays_report.css" />
+			</xpath>
+		</template>
+		<template id="vct_hr_holidays.report_holidays">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<h2>
+								Demandes de congés pour
+								<span t-field="o.employee_id" />
+								soumise le
+								<span t-field="o.create_date" />
+							</h2>
+							<hr />
+							<br />
+							<br />
+							<table class="table">
+								<tr>
+									<td style="border: 1px solid black; font-weight: bold;">
+										Description
+									</td>
+									<td style="border: 1px solid black;">
+										<span t-field="o.name" />
+									</td>
+									<td style="border: 1px solid black; font-weight: bold;">
+										Département
+									</td>
+									<td style="border: 1px solid black;">
+										<span t-field="o.department_id" />
+									</td>
+								</tr>
+								<tr>
+									<td style="border: 1px solid black; font-weight: bold;">
+										Type de congés
+									</td>
+									<td style="border: 1px solid black;">
+										<span t-field="o.holiday_status_id" />
+									</td>
+									<td style="border: 1px solid black; font-weight: bold;">
+										Période
+									</td>
+									<td style="border: 1px solid black;">
+										Du
+										<span t-field="o.date_from" />
+										au
+										<span t-field="o.date_to" />
+										(
+										<span t-field="o.number_of_days_temp" />
+										jours
+										)
+									</td>
+								</tr>
+							</table>
+
+							<t t-if="o.state == 'draft'">
+								<h4>
+									Veuillez soumettre votre demande de congés
+								</h4>
+							</t>
+							<t t-if="o.state == 'cancel'">
+								<h4>
+									Votre demande a été annulé par
+									<span t-field="o.manager_id" />
+								</h4>
+							</t>
+							<t t-if="o.state == 'confirm'">
+								<h4>
+									Votre demande de congés n'a pas encore été traité
+								</h4>
+							</t>
+							<t t-if="o.state == 'refuse'">
+								<h4>
+									Votre demande de congés à été refusé par
+									<span t-field="o.manager_id" />
+								</h4>
+							</t>
+							<t t-if="o.state == 'validate'">
+								<h4>
+									Votre demande de congés à été approuvé par
+									<span t-field="o.manager_id" />
+									et validé par
+									<span t-field="o.manager_id2" />
+								</h4>
+							</t>
+							<t t-if="o.state == 'validate1'">
+								<h4>
+									Votre demande de congés à été approuvé le par
+									<span t-field="o.manager_id" />
+									. En attente de la validation de votre direction.
+								</h4>
+							</t>
+
+							<br />
+							<br />
+							<br />
+							<div>
+								<input type="checkbox" name="true" />
+								Je reconnais avoir pris connaissance du document
+							</div>
+							<div>
+								<input type="checkbox" name="true" />
+								Je certifie que ces informations sont correctes
+							</div>
+							<h4>
+								<strong>Signature de l'employé</strong>
+							</h4>
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<div>
+								<h5>
+									A la date du _ _ / _ _ / _ _ _ _ (jj/mm/aaaa)
+								</h5>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>

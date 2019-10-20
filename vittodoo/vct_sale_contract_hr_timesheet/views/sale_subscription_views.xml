@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_subscription_template_view_form_inherit" model="ir.ui.view">
+        <field name="name">sale_subscription_template_view_form_inherit</field>
+        <field name="model">sale.subscription.template</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_template_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="template_asset_category_id"]' position='after'>
+                <field name="reset_timesheet_duration_on_invoice"/>
+                <field name="enable_alert"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_subscription_view_form_inherit" model="ir.ui.view">
+        <field name="name">sale.subscription.form.view</field>
+        <field name="model">sale.subscription</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='recurring_invoice']" position="after">
+                <span>amount of </span>
+                <field name='recurring_next_total_amount' widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <button name="compute_recurring_next_total_amount" type="object" states="draft,open" string="(update)" class="oe_edit_only oe_link"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

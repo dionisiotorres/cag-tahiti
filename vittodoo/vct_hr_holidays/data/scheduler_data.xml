@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	<!-- delete existing hr.holidays.status -->
+		<delete model="hr.holidays.status" search="[('name', '!=',  '')]" />
+
+	<!-- Create own hr.holidays.status -->
+		<record id="holiday_status_paid" model="hr.holidays.status">
+			<field name="name">Congés payés</field>
+			<field name="double_validation" eval="False" />
+			<field name="limit" eval="False" />
+			<field name="color_name">lightgreen</field>
+		</record>
+		<record id="holiday_status_unpaid" model="hr.holidays.status">
+			<field name="name">Congés non payés(sans solde)</field>
+			<field name="double_validation" eval="False" />
+			<field name="limit" eval="True" />
+			<field name="color_name">brown</field>
+		</record>
+		
+
+	<!-- Adding new records -->
+		<record id="vct_employee_category_society" model="hr.employee.category">
+			<field name="name">Société</field>
+		</record>
+		<record id="ir_cron_add_category_employee_holidays_action" model="ir.cron">
+			<field name="name">Auto Allocation Request (By Employee Tag)</field>
+			<field name="user_id" ref="base.user_root" />
+			<field name="active" eval="False" />
+			<field name="interval_number">1</field>
+			<field name="interval_type">months</field>
+			<field name="numbercall">-1</field>
+			<field name="doall" eval="False" />
+			<field name="model" eval="'hr.holidays'" />
+			<field name="function" eval="'add_category_employee_holidays'" />
+			<field name="args">("Jours de congés mensuel", 1, 2.5, "Société")</field>
+		</record>
+		<record id="ir_cron_add_employee_holidays_action" model="ir.cron">
+			<field name="name">Auto Allocation Request (By Employee)</field>
+			<field name="user_id" ref="base.user_root" />
+			<field name="active" eval="False" />
+			<field name="interval_number">1</field>
+			<field name="interval_type">months</field>
+			<field name="numbercall">-1</field>
+			<field name="doall" eval="False" />
+			<field name="model" eval="'hr.holidays'" />
+			<field name="function" eval="'add_employee_holidays'" />
+			<field name="args">("Jours de congés mensuel", 1, 2.5, "Admin")</field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payroll_configuration" model="ir.ui.view">
+        <field name="name">Configure Payroll</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='hr_payroll_localization']" position="inside">
+
+                <field name="compute_leaves" class="oe_inline"/>
+
+                <div class="col-md-6 col-xs-12 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="compute_leaves" widget="upgrade_boolean"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label string="Calcul les jours de congés automatiquement."/>
+                        <div class="text-muted">
+                            Si cocher, calcul les jours de congés. NOT IMPLEMENTED YET !!!
+                        </div>
+                    </div>
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,845 @@
+id,name,category_id/id,code,active,sequence,appears_on_payslip,condition_select,condition_range,condition_range_min,condition_range_max,condition_python,amount_select,amount_percentage_base,quantity,amount_percentage,amount_fix,amount_python_compute,register_id/id,account_debit/id,account_credit/id,analytic_account_id/id,account_tax_id/id
+hr_payroll.hr_rule_basic,Salaire de base,hr_payroll.BASIC,BASIC,True,1,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,contract.wage,worked_days.WORK100.number_of_hours,100.0,0.0,"result = worked_days.WORK100.number_of_hours * contract.wage
+",,,,,
+hr_payroll.hr_rule_taxable,SALAIRE BRUT,hr_payroll.GROSS,GROSS,True,8,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.BASIC,1.0,100.0,1.0,"result = categories.BASIC
+",,l10n_fr.1_pcg_6411,,,
+hr_payroll.hr_rule_net,NET A PAYER,hr_payroll.NET,NET,True,28,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS - (categories.CPS + categories.CST),1.0,100.0,0.0,result = categories.GROSS - (categories.CPS + categories.CST),,,l10n_fr.1_pcg_421,,
+hr_salary_rule_6,Heures supplémentaire (25%),vct_hr_payroll.hr_salary_rule_category_13,HS25,True,3,True,python,contract.wage,0.0,0.0,result = worked_days.HS25,percentage,contract.wage,worked_days.HS25.number_of_hours,125.0,0.0,"result = worked_days.HS25.number_of_hours
+result = result * contract.wage
+result = result * 1.25",,,,,
+vct_hr_payroll.hr_salary_rule_7,Ancienneté,vct_hr_payroll.hr_salary_rule_category_14,ANCIENNETE,True,2,True,python,contract.wage,0.0,0.0,result = inputs.ANC,percentage,categories.BASIC,inputs.ANC.amount,1.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_8,Retraite tranche A,vct_hr_payroll.hr_salary_rule_category_9,RET_TRCH_A,True,12,True,range,categories.GROSS,0.0,257000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,6.78,0.0,"min = 0
+max = 257000
+taux = 6.78
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_9,Retraite tranche B,vct_hr_payroll.hr_salary_rule_category_9,RET_TRCH_B,True,13,True,range,categories.GROSS,257000.0,514000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS-257000,1.0,5.81,0.0,"min = 257000
+max = 514000
+taux = 5.81
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_10,Maladie,vct_hr_payroll.hr_salary_rule_category_9,MALADIE,True,10,True,range,categories.GROSS,0.0,5000000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,5.43,6.0,"min = 0
+max = 5000000
+taux = 5.4300
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_11,Fond social retraite,vct_hr_payroll.hr_salary_rule_category_9,FSR,True,15,True,range,categories.GROSS,0.0,257000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,0.17,6.0,"min = 0
+max = 257000
+taux = 0.17
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_12,C.S.T 1ère tranche,vct_hr_payroll.hr_salary_rule_category_8,CST_1,True,18,True,range,categories.GROSS,0.0,150000.0,"min = 0
+max = 150000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,categories.GROSS,1.0,0.5,12167.0,"min = 0
+max = 150000
+taux = 0.5
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_14,Maintien de salaire,hr_payroll.ALW,CONGES,True,9,True,python,contract.wage,0.0,0.0,result = worked_days.CONGES,percentage,0,worked_days.CONGES.number_of_days,0.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_48,Heures supplémentaire (65%),vct_hr_payroll.hr_salary_rule_category_13,HS65,True,5,True,python,contract.wage,0.0,0.0,result = worked_days.HS65,percentage,contract.wage,worked_days.HS65.number_of_hours,165.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_49,Heures supplémentaire (100%),vct_hr_payroll.hr_salary_rule_category_13,HS100,True,7,True,python,contract.wage,0.0,0.0,result = worked_days.HS100,percentage,contract.wage,worked_days.HS100.number_of_hours,200.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_50,Heures supplémentaire (50%),vct_hr_payroll.hr_salary_rule_category_13,HS50,True,4,True,python,contract.wage,0.0,0.0,result = worked_days.HS50,percentage,contract.wage,worked_days.HS50.number_of_hours,150.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_51,Heures supplémentaire (75%),vct_hr_payroll.hr_salary_rule_category_13,HS75,True,6,True,python,contract.wage,0.0,0.0,result = worked_days.HS75,percentage,contract.wage,worked_days.HS75.number_of_hours,175.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_15,C.S.T 2ère tranche,vct_hr_payroll.hr_salary_rule_category_8,CST_2,True,20,True,range,categories.GROSS,150000.0,250000.0,"min = 150000
+max = 250000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,categories.GROSS-150000,1.0,3.0,12167.0,"min = 150000
+max = 250000
+taux = 3
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_16,C.S.T 3ème tranche,vct_hr_payroll.hr_salary_rule_category_8,CST_3,True,22,True,range,categories.GROSS,250000.0,400000.0,"min = 250000
+max = 400000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,categories.GROSS-250000,1.0,5.0,12167.0,"min = 250000
+max = 400000
+taux = 5
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_17,C.S.T 4ème tranche ,vct_hr_payroll.hr_salary_rule_category_8,CST_4,True,24,True,range,categories.GROSS,400000.0,700000.0,"min = 400000
+max = 700000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,categories.GROSS-400000,1.0,7.0,12167.0,"min = 400000
+max = 700000
+taux = 7
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_18,TOTAL C.P.S,vct_hr_payroll.hr_salary_rule_category_10,TOTCPS,True,17,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.CPS,1.0,100.0,0.0,result = categories.CPS,,,l10n_fr.1_pcg_6451,,
+vct_hr_payroll.hr_salary_rule_19,TOTAL C.S.T,vct_hr_payroll.hr_salary_rule_category_10,TOTCST,True,26,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.CST,1.0,100.0,0.0,result = categories.CST,,,l10n_fr.1_pcg_447,,
+vct_hr_payroll.hr_salary_rule_20,TOTAL DES RETENUES,vct_hr_payroll.hr_salary_rule_category_7,TOT,True,27,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.TOT,1.0,100.0,0.0,,,,,,
+vct_hr_payroll.hr_salary_rule_64,HAB,vct_hr_payroll.hr_salary_rule_category_12,PAT_HAB,True,29,True,range,categories.GROSS,0.0,486000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS-100000,1.0,1.0,0.0,"min = 0
+max = 486000
+taux = 1.0
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_65,AF,vct_hr_payroll.hr_salary_rule_category_12,PAT_AF,True,31,True,range,categories.GROSS,0.0,750000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1,4.04,0.0,"min = 0
+max = 750000
+taux = 4.04
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_66,AVT,vct_hr_payroll.hr_salary_rule_category_12,PAT_AVT,True,33,True,range,categories.GROSS,0.0,195000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,0.02,0.0,"min = 0
+max = 195000
+taux = 0.02
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_67,AT,vct_hr_payroll.hr_salary_rule_category_12,PAT_AT,True,35,True,range,categories.GROSS,0.0,3000000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,0.77,0.0,"min = 0
+max = 3000000
+taux = 0.77
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_68,RET A,vct_hr_payroll.hr_salary_rule_category_12,PAT_RETA,True,37,True,range,categories.GROSS,0.0,257000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,13.56,0.0,"min = 0
+max = 257000
+taux = 13.56
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_69,RET B,vct_hr_payroll.hr_salary_rule_category_12,PAT_RETB,True,39,True,range,categories.GROSS,257000.0,514000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS-257000,1.0,11.62,0.0,"min = 257000
+max = 514000
+taux = 11.62
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_70,AM,vct_hr_payroll.hr_salary_rule_category_12,PAT_AM,True,41,True,range,categories.GROSS,0.0,5000000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,10.86,0.0,"min = 0
+max = 5000000
+taux = 10.86
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_71,FSR,vct_hr_payroll.hr_salary_rule_category_12,PAT_FSR,True,43,True,range,categories.GROSS,0.0,257000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,0.34,0.0,"min = 0
+max = 257000
+taux = 0.34
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_72,FPC,vct_hr_payroll.hr_salary_rule_category_12,PAT_FPC,True,46,True,range,categories.GROSS,0.0,5000000.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1.0,0.5,0.0,"min = 0
+max = 5000000
+taux = 0.5
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_73,TOTAL CHARGE PATRONALES,vct_hr_payroll.hr_salary_rule_category_10,TOTPATRON,True,47,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.PATRON,1.0,100.0,0.0,result = categories.PATRON,,,,,
+vct_hr_payroll.hr_salary_rule_75,Maladie,vct_hr_payroll.hr_salary_rule_category_9,MALADIE+,True,9,True,range,categories.GROSS,5000000.0,10000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,5000000,1.0,5.43,6.0,"min = 0
+max = 5000000
+taux = 5.4300
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_76,Retraite tranche A,vct_hr_payroll.hr_salary_rule_category_9,RET_TRCH_A+,True,11,True,range,categories.GROSS,257000.0,10000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,257000,1.0,6.78,0.0,"min = 0
+max = 257000
+taux = 6.78
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_77,Retraite tranche B,vct_hr_payroll.hr_salary_rule_category_9,RET_TRCH_B+,True,14,True,range,categories.GROSS,514000.0,100000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,514000,1.0,5.81,0.0,"min = 257000
+max = 514000
+taux = 5.81
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_78,Fond social retraite,vct_hr_payroll.hr_salary_rule_category_9,FSR+,True,16,True,range,categories.GROSS,257000.0,9999999999.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,257000,1.0,0.17,6.0,"min = 0
+max = 257000
+taux = 0.17
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_79,C.S.T 1ère tranche,vct_hr_payroll.hr_salary_rule_category_8,CST_1+,True,19,True,range,categories.GROSS,150000.0,9.99999999999e+11,"min = 0
+max = 150000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,150000,1.0,0.5,12167.0,"min = 0
+max = 150000
+taux = 0.5
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_80,C.S.T 2ère tranche,vct_hr_payroll.hr_salary_rule_category_8,CST_2+,True,21,True,range,categories.GROSS,250000.0,99999999.0,"min = 150000
+max = 250000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,250000-150000,1.0,3.0,12167.0,"min = 150000
+max = 250000
+taux = 3
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_81,C.S.T 3ème tranche,vct_hr_payroll.hr_salary_rule_category_8,CST_3+,True,23,True,range,categories.GROSS,400000.0,9999999999.0,"min = 250000
+max = 400000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,400000-250000,1.0,5.0,12167.0,"min = 250000
+max = 400000
+taux = 5
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_82,C.S.T 4ème tranche ,vct_hr_payroll.hr_salary_rule_category_8,CST_4+,True,25,True,range,categories.GROSS,700000.0,9999999999.0,"min = 400000
+max = 700000
+if categories.GROSS > max:
+        result = True
+elif categories.GROSS < max and categories.GROSS > min:
+        result = True
+else:
+        result = False",percentage,700000,1.0,7.0,12167.0,"min = 400000
+max = 700000
+taux = 7
+if categories.GROSS > max:
+         result = max
+else:
+         result = categories.GROSS
+
+result = (result-min) * taux
+result = result / 100",hr_payroll.contrib_register_employees,,,,
+vct_hr_payroll.hr_salary_rule_83,HAB,vct_hr_payroll.hr_salary_rule_category_12,PAT_HAB+,True,30,True,range,categories.GROSS,486000.0,10000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,486000,1.0,1.0,0.0,"min = 0
+max = 486000
+taux = 1.0
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_84,AF,vct_hr_payroll.hr_salary_rule_category_12,PAT_AF+,True,32,True,range,categories.GROSS,750000.0,100000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.GROSS,1,4.04,0.0,"min = 0
+max = 750000
+taux = 4.04
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_85,AVT,vct_hr_payroll.hr_salary_rule_category_12,PAT_AVT+,True,34,True,range,categories.GROSS,195000.0,1E+018,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,195000,1.0,0.02,0.0,"min = 0
+max = 195000
+taux = 0.02
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_86,AT,vct_hr_payroll.hr_salary_rule_category_12,PAT_AT+,True,36,True,range,categories.GROSS,3000000.0,1E+019,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,3000000,1.0,0.77,0.0,"min = 0
+max = 3000000
+taux = 0.77
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_87,RET A,vct_hr_payroll.hr_salary_rule_category_12,PAT_RETA+,True,38,True,range,categories.GROSS,257000.0,1000000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,257000,1.0,13.56,0.0,"min = 0
+max = 257000
+taux = 13.56
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_88,RET B,vct_hr_payroll.hr_salary_rule_category_12,PAT_RETB+,True,40,True,range,categories.GROSS,514000.0,1000000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,514000,1.0,11.62,0.0,"min = 257000
+max = 514000
+taux = 11.62
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_89,AM,vct_hr_payroll.hr_salary_rule_category_12,PAT_AM+,True,42,True,range,categories.GROSS,5000000.0,10000000000000,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,5000000,1.0,10.86,0.0,"min = 0
+max = 5000000
+taux = 10.86
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_90,FSR,vct_hr_payroll.hr_salary_rule_category_12,PAT_FSR+,True,44,True,range,categories.GROSS,257000.0,9.99999999999e+11,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,257000,1.0,0.34,0.0,"min = 0
+max = 257000
+taux = 0.34
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_91,FPC,vct_hr_payroll.hr_salary_rule_category_12,PAT_FPC+,True,45,True,range,categories.GROSS,5000000.0,1E+017,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,5000000,1.0,0.5,0.0,"min = 0
+max = 5000000
+taux = 0.5
+if categories.GROSS > max:
+        result = max
+else:
+        result = categories.GROSS
+result = (result-min) * taux
+result = result / 100",,,,,
+vct_hr_payroll.hr_salary_rule_136,C.P.S COTISATIONS,vct_hr_payroll.hr_salary_rule_category_10,TOTCPSPATSAL,True,49,True,none,contract.wage,0.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days
+                    # inputs: object containing the computed inputs
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = rules.NET > categories.NET * 0.10",percentage,categories.PATRON + categories.CPS + inputs.TOTCPSPATSAL.amount,1.0,100.0,0.0,"
+                    # Available variables:
+                    #----------------------
+                    # payslip: object containing the payslips
+                    # employee: hr.employee object
+                    # contract: hr.contract object
+                    # rules: object containing the rules code (previously computed)
+                    # categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+                    # worked_days: object containing the computed worked days.
+                    # inputs: object containing the computed inputs.
+
+                    # Note: returned value have to be set in the variable 'result'
+
+                    result = contract.wage * 0.10",hr_payroll.contrib_register_employees,l10n_fr.1_pcg_6451,l10n_fr.1_pcg_431,,

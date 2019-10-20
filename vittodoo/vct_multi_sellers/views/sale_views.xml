@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="sellers" widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_invoice_seller_commission_pivot" model="ir.ui.view">
+            <field name="name">account.invoice.seller.commission.pivot</field>
+            <field name="model">account.invoice.seller.commission</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse des commissions vendeurs">
+                    <field name="commission" type="measure"/>
+                    <field name="seller" type="row"/>
+                    <field name="date" interval="day" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id="account_invoice_seller_commission_action" model="ir.actions.act_window">
+            <field name="name">Analyse des commissions vendeurs</field>
+            <field name="res_model">account.invoice.seller.commission</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_id"></field>  <!-- force empty -->
+        </record>
+
+        <menuitem id="account_invoice_seller_commission_menuitem" name="Commissions vendeurs" action="account_invoice_seller_commission_action" parent="sale.menu_sale_report" sequence="10"/>
+
+    </data>
+</odoo>

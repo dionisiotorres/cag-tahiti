@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+  <report
+    id="hr_holidays_report"
+    model="hr.holidays"
+    string="Imprimer"
+    report_type="qweb-pdf"
+    name="vct_hr_holidays.report_holidays"
+    file="vct_hr_holidays.report_holidays"
+    attachment_use="True"
+    attachment="(object.state in ('open','paid')) and
+        ('INV'+(object.number or '').replace('/','')+'.pdf')"
+	/>
+  </data>
+</odoo>

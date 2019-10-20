@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="event_script" inherit_id="website.assets_frontend" name="Country Events Snippet Script">
+		<xpath expr="/t" position="inside">
+			<script type="text/javascript" src="/vct_website_event/static/src/js/website_event.js"></script>
+		</xpath>
+	</template>
+	<template id="registration_template" inherit_id="website_event.registration_template">
+		<xpath expr="//form" position="attributes">
+			<attribute name="id">registration_form2</attribute>
+		</xpath>
+		<xpath expr="//table" position="replace">
+			<div class="form-group">
+				<label>Nombre de participant ?</label>
+				<select t-if="event.seats_available or event.seats_availability == 'unlimited'" name="nb_register-0" class="form-control">
+					<t t-foreach="range(0, (event.seats_availability == 'unlimited' or event.seats_available > 9) and 10 or event.seats_available+1)" t-as="nb">
+						<option t-esc="nb" />
+					</t>
+				</select>
+				<span t-if="event.seats_availability == 'limited' and not event.seats_available">Sold Out</span>
+			</div>
+		</xpath>
+	</template>
+	<template id="registration_attendee_details" inherit_id="website_event.registration_attendee_details">
+		<xpath expr="//div[@id='modal_attendees_registration']" position="attributes">
+			<attribute name="class">fade in</attribute>
+			<attribute name="style">clear:both</attribute>
+		</xpath>
+		<xpath expr="//a[@class='js_goto_event']" position="replace">
+			<a class="js_goto_event" style="cursor: pointer;"> Modifier l'inscription</a>
+		</xpath>
+		<xpath expr="//div[@class='modal-content']" position="attributes">
+			<attribute name="class"></attribute>
+		</xpath>
+		<xpath expr="//div[@class='modal-dialog modal-lg']" position="attributes">
+			<attribute name="class"></attribute>
+		</xpath>
+		<xpath expr="//button[@class='close']" position="replace">
+		</xpath>
+		<xpath expr="//div[@class='modal-body']" position="replace">
+			<div class="container">
+				<t t-set="counter_type" t-value="1" />
+				<t t-set="counter" t-value="0" />
+				<t t-foreach="tickets" t-as="participant">
+					<t t-foreach="range(1, participant['quantity']+1)" t-as="att_counter" name="attendee_loop">
+						<t t-set="counter" t-value="counter + 1" />
+						<div class="row mb4">
+							<t t-set="attendee_placeholder">Nom et Prénom #%s</t>
+							<div class="col-md-4">
+								<input class='form-control' type='text' t-attf-name="#{counter}-name" required="True" t-att-placeholder="attendee_placeholder %counter" />
+							</div>
+							<div class="col-md-5">
+								<input class='form-control' type='email' t-attf-name="#{counter}-email" required="True" placeholder="E-mail"/>
+							</div>
+							<div class="col-md-3">
+								<input class='form-control' type='tel' t-attf-name="#{counter}-phone" placeholder="Téléphone" />
+							</div>
+						</div>
+						<table itemprop="offers" class="table">
+							<thead>
+								<tr>
+									<th class="col-sm-4 col-md-6">Ticket Type</th>
+									<th>End of Registration</th>
+									<th class="o_th_price">Price</th>
+									<th>Participe (O/N)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<t t-foreach="event.event_ticket_ids" t-as="ticket">
+									<tr itemscope="itemscope" itemtype="http://data-vocabulary.org/Offer" t-if="not ticket.is_expired">
+										<td itemscope="itemscope" itemtype="http://data-vocabulary.org/Product">
+											<div itemprop="name" t-field="ticket.name" />
+											<div>
+												<small itemprop="description" t-field="ticket.product_id.description_sale" />
+											</div>
+										</td>
+										<td>
+											<t t-if="ticket.deadline">
+												<span itemprop="priceValidUntil" t-field="ticket.deadline" />
+											</t>
+											<t t-if="not ticket.deadline">
+												<span>Unlimited</span>
+											</t>
+										</td>
+										<td>
+											<t t-if="ticket.price or editable">
+												<t t-if="(ticket.price-website.get_current_pricelist().currency_id.compute(ticket.price_reduce, event.company_id.sudo().currency_id)) &gt; 1">
+													<!-- <del class="text-danger mr4" style="white-space: nowrap;" t-field="ticket.price" t-options='{"widget": "monetary", "from_currency": event.company_id.sudo().currency_id, "display_currency": website.get_current_pricelist().currency_id}' /> -->
+												</t>
+												<span t-field="ticket.price" t-options='{"widget": "monetary", "from_currency": event.company_id.sudo().currency_id, "display_currency": website.get_current_pricelist().currency_id}' />
+												<span itemprop="price" style="display:none;" t-esc="ticket.price" />
+												<span itemprop="priceCurrency" style="display:none;" t-esc="website.pricelist_id.currency_id.name" />
+											</t>
+											<t t-if="not ticket.price and not editable">
+												<span>Free</span>
+											</t>
+										</td>
+										<td t-if="show_tickets_left">
+											<span t-if="ticket.seats_max and ((ticket.seats_reserved or 0)*100 / ticket.seats_max)&gt;75" class="text-muted">
+												<t t-esc="ticket.seats_max - ticket.seats_reserved" />
+												<span>left</span>
+											</span>
+										</td>
+										<td>
+											<input class='form-control' type="checkbox" t-attf-name="#{counter}-ticket_id-#{ticket['id']}" t-attf-value="#{ticket['id']}" />
+										</td>
+									</tr>
+								</t>
+							</tbody>
+						</table>
+					</t>
+				</t>
+			</div>
+		</xpath>
+	</template>
+	<template id="registration_complete_inherited" inherit_id="website_event.registration_complete">
+		<xpath expr="//thead/tr/th[last()]" position="after">
+			<th>Ticket</th>
+		</xpath>
+		<xpath expr="//tbody/t/tr/td[last()]" position="after">
+			<td><t t-esc="attendee.event_ticket_id.display_name"/></td>
+		</xpath>
+	</template>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<t t-extend="UserMenu">
+		<t t-jquery=".o_user_menu" t-operation="replace">
+			<li class="o_user_menu">
+				<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+					<img class="img-circle oe_topbar_avatar" t-att-src="_s + '/web/static/src/img/user_menu_avatar.png'" />
+					<span class="oe_topbar_name" />
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu" role="menu">
+					<li>
+						<a target="_blank" href="https://www.odoo.com/documentation/user/10.0/fr/">Documentation</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://vittoriaconseil.com/helpdesk/support-1/submit">Support</a>
+					</li>
+					<li class="divider" />
+					<li>
+						<a href="#" data-menu="settings">Preferences</a>
+					</li>
+					<li>
+						<a href="#" data-menu="logout">Log out</a>
+					</li>
+				</ul>
+			</li>
+		</t>
+	</t>
+
+</odoo>

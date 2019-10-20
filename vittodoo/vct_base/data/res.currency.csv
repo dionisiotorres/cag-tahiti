@@ -1,0 +1,4 @@
+"id","name","symbol","active","position"
+"base.XPF","XPF","XPF","True","After Amount"
+"base.EUR","EUR","€","False","After Amount"
+"base.USD","USD","$","False","After Amount"

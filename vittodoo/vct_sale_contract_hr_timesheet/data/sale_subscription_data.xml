@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Cron -->
+        <record id="sale_subscription_compute_recurring_next_total_amount_cron" model="ir.cron">
+            <field name="name">Sale Subscription: Alert()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'sale.subscription'"/>
+            <field name="function" eval="'alert'"/>
+            <field name="args" eval="'()'"/>
+        </record>
+
+        <!-- Email Template -->
+        <record id="sale_subscription_alert_mail_template" model="mail.template">
+            <field name="name">Sale Subscription: Alert()</field>
+            <field name="email_from">${(object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">TMA : Alerte Consommation !</field>
+            <field name="email_to">${(object.partner_id.email or '')|safe}</field>
+            <field name="model_id" ref="sale_contract.model_sale_subscription"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<p>Bonjour,</p>
+<p>Ceci est une alerte sur comsommation de votre contrat de TMA. Le montant de votre prochaine facture sera de ${object.recurring_next_total_amount}</p>
+<p>Thank you,</p>
+]]></field>
+        </record>
+    </data>
+</odoo>

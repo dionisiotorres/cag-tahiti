@@ -1,0 +1,9 @@
+<odoo>
+	<data>
+		<template id="contactus" inherit_id="website.contactus" name="Contact Form">
+			<xpath expr="//h1" position="replace">
+				<h1>Contact us !!</h1>
+			</xpath>
+		</template>
+	</data>
+</odoo>

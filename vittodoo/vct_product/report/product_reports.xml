@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="product_sheet"
+                model="product.template"
+                string="Fiche de stock"
+                report_type="qweb-pdf"
+                name="vct_product.report_product_sheet"
+                file="vct_product.report_product_sheet"
+        />
+    </data>
+</odoo>

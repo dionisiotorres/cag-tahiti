@@ -1,0 +1,4 @@
+"id","bic","name","zip","city","active","phone","country"
+"bt","BT","Banque de tahiti",,"Papeete","True","+689 40 50 23 23","pf"
+"bp","BP","Banque de Polynésie",,"Papeete","True","+689 40 46 78 00","pf"
+"soc","SOC","Socredo",,"Papeete","True","+689 40 47 00 00","pf"
