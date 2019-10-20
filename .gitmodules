@@ -1,6 +1,3 @@
 [submodule "notfenuasoftware"]
 	path = notfenuasoftware
 	url = git@bitbucket.org:fenuasoftware/notfenuasoftware.git
-[submodule "fenuasoftware"]
-	path = fenuasoftware
-	url = git@bitbucket.org:fenuasoftware/fenuasoftware.git
